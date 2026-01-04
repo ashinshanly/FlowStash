@@ -44,7 +44,7 @@ const STORAGE_KEY = '@expense_tracker_transactions';
 const ACCOUNTS_KEY = '@expense_tracker_accounts';
 const NOTIFICATIONS_KEY = '@expense_tracker_notifications';
 const CURRENCY_KEY = '@expense_tracker_currency';
-const PRO_STATUS_KEY = '@expense_tracker_pro_status';
+
 
 const DEFAULT_ACCOUNTS: Account[] = [];
 
@@ -53,7 +53,6 @@ export function useTransactions() {
     const [accounts, setAccounts] = useState<Account[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [currency, setCurrencyState] = useState<CurrencyCode>('INR');
-    const [isPro, setIsPro] = useState(false);
     const [loading, setLoading] = useState(true);
 
     // Load transactions from storage
@@ -64,12 +63,6 @@ export function useTransactions() {
 
             const storedNotifications = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
             const storedCurrency = await AsyncStorage.getItem(CURRENCY_KEY);
-            const storedProStatus = await AsyncStorage.getItem(PRO_STATUS_KEY);
-
-            if (storedProStatus === 'true') {
-                setIsPro(true);
-            }
-
             if (storedCurrency && CURRENCIES[storedCurrency as CurrencyCode]) {
                 setCurrencyState(storedCurrency as CurrencyCode);
             }
@@ -174,15 +167,6 @@ export function useTransactions() {
             await AsyncStorage.setItem(CURRENCY_KEY, code);
         } catch (error) {
             console.error('Error saving currency:', error);
-        }
-    }, []);
-
-    const unlockPro = useCallback(async () => {
-        try {
-            setIsPro(true);
-            await AsyncStorage.setItem(PRO_STATUS_KEY, 'true');
-        } catch (error) {
-            console.error('Error unlocking Pro:', error);
         }
     }, []);
 
@@ -358,8 +342,6 @@ export function useTransactions() {
         currency,
         setCurrency,
         currencySymbol: CURRENCIES[currency].symbol,
-        isPro,
-        unlockPro,
         CURRENCIES,
     };
 }
