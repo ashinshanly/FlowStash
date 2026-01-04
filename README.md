@@ -3,8 +3,7 @@
 A **Privacy-First** auto-tracking expense manager built for iOS. FlowStash solves "manual entry fatigue" by automating expense tracking and applying **smart categorization algorithms** to bank SMS messages, while ensuring **100% of your data stays on your device**. No servers, no cloud, no tracking.
 
 <p align="center">
-  <img src="assets/readme-images/app_home_screen.png" width="300" alt="Home Screen" />
-  <img src="assets/readme-images/app_analytics_screen.png" width="300" alt="Analytics Screen" />
+  <img src="assets/readme-images/home.png" width="300" alt="Home Screen" />
 </p>
 
 ---
@@ -30,15 +29,16 @@ Now, when I get a bank SMS, an automation runs, extracts the details, and pushes
 ### Dashboard & Analytics
 The UI is designed to be minimal and information-dense.
 <p align="center">
-  <img src="assets/readme-images/app_home_screen.png" width="220" alt="Home" />
-  <img src="assets/readme-images/app_history_screen.png" width="220" alt="History" />
-  <img src="assets/readme-images/app_analytics_screen.png" width="220" alt="Analytics" />
+  <img src="assets/readme-images/home.png" width="220" alt="Home" />
+  <img src="assets/readme-images/analytics.png" width="220" alt="Analytics" />
+  <img src="assets/readme-images/history.png" width="220" alt="History" />
+  <img src="assets/readme-images/add_transaction.png" width="220" alt="Add Transaction" />
 </p>
 
 ### Account Management
 <p align="center">
-  <img src="assets/readme-images/acc_list_final.png" width="220" alt="Accounts" />
-  <img src="assets/readme-images/add_acc_form.png" width="220" alt="Add Account" />
+  <img src="assets/readme-images/accounts.png" width="220" alt="Accounts" />
+  <img src="assets/readme-images/add_account.png" width="220" alt="Add Account" />
 </p>
 
 ---
@@ -59,7 +59,7 @@ Since we can't read SMS directly, we use the iOS **Shortcuts** app as a bridge.
     - **Account Linking:** Fuzzy matching the `sender` param (e.g., "HDFC-Bank") to your local Account names.
 
 <p align="center">
-  <img src="assets/readme-images/sms_verified.png" width="500" alt="Shortcuts Setup" />
+  <img src="assets/readme-images/track_sms.png" width="500" alt="Shortcuts Setup" />
 </p>
 
 ### Tech Stack
