@@ -2,7 +2,7 @@ import BalanceCard from '@/components/BalanceCard';
 import SpendingChart from '@/components/SpendingChart';
 import TransactionItem from '@/components/TransactionItem';
 import { Colors, Spacing, Typography } from '@/constants/Colors';
-import { useTransactions } from '@/hooks/useTransactions';
+import { CURRENCIES, useTransactions } from '@/hooks/useTransactions';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback } from 'react';
@@ -24,7 +24,6 @@ export default function HomeScreen() {
     currencySymbol,
     currency,
     setCurrency,
-    CURRENCIES,
   } = useTransactions();
 
   const [showCurrencyModal, setShowCurrencyModal] = React.useState(false);
