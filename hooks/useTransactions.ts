@@ -339,6 +339,8 @@ export function useTransactions() {
         updateAccount,
         deleteAccount,
         clearAllData,
+        markAllNotificationsAsRead,
+        addNotification,
         currency,
         setCurrency,
         currencySymbol: CURRENCIES[currency].symbol,
