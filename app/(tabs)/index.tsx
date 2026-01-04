@@ -14,6 +14,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const {
     transactions,
+    notifications,
     loading,
     totals,
     spendingByCategory,
@@ -68,10 +69,13 @@ export default function HomeScreen() {
             >
               <Ionicons name="scan-outline" size={24} color={Colors.text} />
             </TouchableOpacity>
-            <View style={styles.notificationButton}>
+            <TouchableOpacity
+              style={styles.notificationButton}
+              onPress={() => router.push('/notifications')}
+            >
               <Ionicons name="notifications-outline" size={24} color={Colors.text} />
-              <View style={styles.notificationDot} />
-            </View>
+              {notifications.some(n => !n.read) && <View style={styles.notificationDot} />}
+            </TouchableOpacity>
           </View>
         </Animated.View>
 

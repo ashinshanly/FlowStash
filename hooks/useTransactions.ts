@@ -22,8 +22,18 @@ export interface Transaction {
     accountId?: string;
 }
 
+export interface Notification {
+    id: string;
+    title: string;
+    message: string;
+    date: string;
+    read: boolean;
+    type: 'info' | 'warning' | 'success';
+}
+
 const STORAGE_KEY = '@expense_tracker_transactions';
 const ACCOUNTS_KEY = '@expense_tracker_accounts';
+const NOTIFICATIONS_KEY = '@expense_tracker_notifications';
 
 const DEFAULT_ACCOUNTS: Account[] = [
     { id: '1', name: 'Cash', type: 'cash', initialBalance: 0, color: '#4CAF50' },
@@ -33,6 +43,7 @@ const DEFAULT_ACCOUNTS: Account[] = [
 export function useTransactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [accounts, setAccounts] = useState<Account[]>([]);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Load transactions from storage
@@ -40,6 +51,8 @@ export function useTransactions() {
         try {
             const storedTransactions = await AsyncStorage.getItem(STORAGE_KEY);
             const storedAccounts = await AsyncStorage.getItem(ACCOUNTS_KEY);
+
+            const storedNotifications = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
 
             if (storedTransactions) {
                 setTransactions(JSON.parse(storedTransactions));
@@ -53,6 +66,22 @@ export function useTransactions() {
             } else {
                 setAccounts(DEFAULT_ACCOUNTS);
                 await AsyncStorage.setItem(ACCOUNTS_KEY, JSON.stringify(DEFAULT_ACCOUNTS));
+            }
+
+            if (storedNotifications) {
+                setNotifications(JSON.parse(storedNotifications));
+            } else {
+                // Add initial Welcome notification
+                const welcomeNotification: Notification = {
+                    id: 'welcome-1',
+                    title: 'Welcome to PennyWise! 🤡',
+                    message: 'Your smart automated expense tracker is ready. We hope this helps you plan your expenses better now!',
+                    date: new Date().toISOString(),
+                    read: false,
+                    type: 'info'
+                };
+                setNotifications([welcomeNotification]);
+                await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify([welcomeNotification]));
             }
         } catch (error) {
             console.error('Error loading transactions:', error);
@@ -84,6 +113,31 @@ export function useTransactions() {
         }
     }, []);
 
+    // Save notifications to storage
+    const saveNotifications = useCallback(async (newNotifications: Notification[]) => {
+        try {
+            await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(newNotifications));
+        } catch (error) {
+            console.error('Error saving notifications:', error);
+        }
+    }, []);
+
+    const addNotification = useCallback(async (notification: Omit<Notification, 'id'>) => {
+        const newNotification: Notification = {
+            ...notification,
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+        };
+        const updated = [newNotification, ...notifications];
+        setNotifications(updated);
+        await saveNotifications(updated);
+    }, [notifications, saveNotifications]);
+
+    const markAllNotificationsAsRead = useCallback(async () => {
+        const updated = notifications.map(n => ({ ...n, read: true }));
+        setNotifications(updated);
+        await saveNotifications(updated);
+    }, [notifications, saveNotifications]);
+
     // Add a new transaction
     const addTransaction = useCallback(async (transaction: Omit<Transaction, 'id'>) => {
         const newTransaction: Transaction = {
@@ -93,8 +147,26 @@ export function useTransactions() {
         const updated = [newTransaction, ...transactions];
         setTransactions(updated);
         await saveTransactions(updated);
+
+        // Check for budget warning (Example threshold: 50000)
+        // In a real app, this would be user-configurable
+        const currentExpenses = transactions.reduce((sum, t) => t.type === 'expense' ? sum + t.amount : sum, 0);
+        const newTotalExpenses = currentExpenses + (transaction.type === 'expense' ? transaction.amount : 0);
+
+        // Simple logic: Trigger warning if crossing 50k, 1lakh etc. 
+        // For demonstration, let's just say if expense > 10000 single transaction or total > 50000
+        if (transaction.type === 'expense' && transaction.amount > 10000) {
+            addNotification({
+                title: 'High Expense Alert ⚠️',
+                message: `You just spent ₹${transaction.amount}. Make sure this was planned!`,
+                date: new Date().toISOString(),
+                read: false,
+                type: 'warning',
+            });
+        }
+
         return newTransaction;
-    }, [transactions, saveTransactions]);
+    }, [transactions, saveTransactions, addNotification]);
 
     // Delete a transaction
     const deleteTransaction = useCallback(async (id: string) => {
@@ -207,8 +279,11 @@ export function useTransactions() {
         totals,
         spendingByCategory,
         recentTransactions,
+        notifications,
         accountBalances,
         addTransaction,
+        addNotification,
+        markAllNotificationsAsRead,
         deleteTransaction,
         importTransactions,
         loadTransactions,
