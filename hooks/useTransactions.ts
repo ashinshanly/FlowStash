@@ -191,11 +191,14 @@ export function useTransactions() {
             } else {
                 acc.expenses += t.amount;
             }
-            acc.balance = acc.income - acc.expenses;
             return acc;
         },
         { income: 0, expenses: 0, balance: 0 }
     );
+
+    // Add initial balances from accounts to the total balance
+    const accountsInitialBalance = accounts.reduce((sum, acc) => sum + (acc.initialBalance || 0), 0);
+    totals.balance = accountsInitialBalance + totals.income - totals.expenses;
 
     // Get spending by category
     const spendingByCategory = transactions
