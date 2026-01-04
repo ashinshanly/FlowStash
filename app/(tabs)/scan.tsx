@@ -82,7 +82,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     },
 ];
 
-const URL_TEMPLATE = 'expense-tracker://add-from-shortcut?sms=MESSAGE';
+const URL_TEMPLATE = 'flowstash://add-from-shortcut?sms=MESSAGE';
 
 export default function ScanScreen() {
     const router = useRouter();

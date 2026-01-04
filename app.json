@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Expense Tracker",
-    "slug": "expense-tracker",
+    "name": "FlowStash",
+    "slug": "flowstash",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "expense-tracker",
+    "scheme": "flowstash",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.expensetracker.app"
+      "bundleIdentifier": "com.flowstash.app"
     },
     "android": {
       "adaptiveIcon": {

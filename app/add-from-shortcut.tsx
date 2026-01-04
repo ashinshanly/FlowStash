@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
  * Deep Link Handler Screen
  * 
  * Receives transaction data from iOS Shortcuts via URL scheme:
- * expense-tracker://add-from-shortcut?amount=450&desc=SWIGGY&type=expense
+ * flowstash://add-from-shortcut?amount=450&desc=SWIGGY&type=expense
  */
 export default function AddFromShortcutScreen() {
     const router = useRouter();

@@ -1,4 +1,4 @@
-// Design System Colors for Expense Tracker
+// Design System Colors for FlowStash
 
 export const Colors = {
   // Background colors
@@ -6,32 +6,32 @@ export const Colors = {
   backgroundSecondary: '#12121A',
   card: '#1A1A2E',
   cardHighlight: '#252540',
-  
+
   // Primary brand colors
   primary: '#6C63FF',
   primaryLight: '#8B85FF',
   primaryDark: '#5148CC',
-  
+
   // Accent colors
   secondary: '#00D9FF',
   accent: '#FF6B9D',
-  
+
   // Semantic colors
   success: '#00E676',
   successLight: '#69F0AE',
   danger: '#FF5252',
   dangerLight: '#FF8A80',
   warning: '#FFD740',
-  
+
   // Text colors
   text: '#FFFFFF',
   textSecondary: '#B8B8C7',
   textMuted: '#6E6E80',
-  
+
   // Border & overlay
   border: '#2A2A40',
   overlay: 'rgba(0, 0, 0, 0.6)',
-  
+
   // Gradient presets
   gradients: {
     primary: ['#6C63FF', '#8B85FF'],

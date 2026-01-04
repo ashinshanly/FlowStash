@@ -88,7 +88,7 @@ export function useTransactions() {
                 const welcomeIndex = parsedNotifications.findIndex(n => n.id === 'welcome-1');
                 const welcomeNotification: Notification = {
                     id: 'welcome-1',
-                    title: 'Welcome to PennyWise! 🤡',
+                    title: 'Welcome to FlowStash! 🌊',
                     message: 'Your smart automated expense tracker is ready. 🔒 Privacy First: All your data stays on this device. No servers, no cloud storage. All processing happens locally.',
                     date: new Date().toISOString(),
                     read: false,
@@ -112,7 +112,7 @@ export function useTransactions() {
             } else {
                 const welcomeNotification: Notification = {
                     id: 'welcome-1',
-                    title: 'Welcome to PennyWise! 🤡',
+                    title: 'Welcome to FlowStash! 🌊',
                     message: 'Your smart automated expense tracker is ready. 🔒 Privacy First: All your data stays on this device. No servers, no cloud storage. All processing happens locally.',
                     date: new Date().toISOString(),
                     read: false,

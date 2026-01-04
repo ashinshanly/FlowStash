@@ -1,6 +1,6 @@
-# PennyWise
+# FlowStash 🌊
 
-A **Privacy-First** auto-tracking expense manager built for iOS. PennyWise solves "manual entry fatigue" by automating expense tracking and applying **smart categorization algorithms** to bank SMS messages, while ensuring **100% of your data stays on your device**. No servers, no cloud, no tracking.
+A **Privacy-First** auto-tracking expense manager built for iOS. FlowStash solves "manual entry fatigue" by automating expense tracking and applying **smart categorization algorithms** to bank SMS messages, while ensuring **100% of your data stays on your device**. No servers, no cloud, no tracking.
 
 <p align="center">
   <img src="assets/readme-images/app_home_screen.png" width="300" alt="Home Screen" />
@@ -51,7 +51,7 @@ Since we can't read SMS directly, we use the iOS **Shortcuts** app as a bridge.
 1.  **Trigger:** An iOS Automation triggers `When Message Received` containing keywords like "Spent" or "Debited".
 2.  **Pass-through:** The Shortcut takes the `Content` of the message and opens a Deep Link to the app.
     ```
-    expense-tracker://add-from-shortcut?sms=<MESSAGE_CONTENT>&sender=<BANK_NAME>
+    flowstash://add-from-shortcut?sms=<MESSAGE_CONTENT>&sender=<BANK_NAME>
     ```
 3.  **Parsing Logic:** Inside the React Native app, we parse the raw SMS string.
     - **Amount:** Regex search for patterns like `Rs. \d+` or `INR \d+`.
@@ -77,12 +77,12 @@ If you want to tweak this or run it on your own phone:
 
 1.  **Clone the repo:**
     ```bash
-    git clone https://github.com/yourusername/pennywise.git
+    git clone https://github.com/yourusername/flowstash.git
     ```
 
 2.  **Install dependencies:**
     ```bash
-    cd pennywise
+    cd flowstash
     npm install
     ```
 
