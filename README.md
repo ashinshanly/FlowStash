@@ -1,43 +1,34 @@
-# 🤡 PennyWise
-### *Smart Spending, Automagically.*
+# PennyWise
 
-> "A penny saved is a penny earned." — But we strictly prefer the digital kind.
-
-**PennyWise** is not just another expense tracker. It's an intelligent financial companion for iOS that links directly with your bank SMS to automate your life. Built with a stunning dark-mode-first design, it turns the mundane task of tracking expenses into a delightful experience.
+A clean, dark-themed expense tracker I built for iOS using React Native (Expo). The main goal was to solve the "manual entry" fatigue by automating expense tracking from bank SMS messages, but without violating iOS privacy restrictions.
 
 <p align="center">
-  <img src="assets/readme-images/app_home_screen.png" width="300" alt="PennyWise Dashboard" />
-  <img src="assets/readme-images/app_analytics_screen.png" width="300" alt="PennyWise Analytics" />
+  <img src="assets/readme-images/app_home_screen.png" width="300" alt="Home Screen" />
+  <img src="assets/readme-images/app_analytics_screen.png" width="300" alt="Analytics Screen" />
 </p>
 
 ---
 
-## 🎩 The "Magic" (Features)
+## Why I Built This?
 
-### ⚡️ Auto-Magical SMS Tracking
-Forget manual entry. We've built a bridge between iOS Shortcuts and React Native to parse raw bank SMS messages instantly.
-- **Extracts Amount**: Finds the money (`Rs. 750`).
-- **Finds Merchant**: Identifies who took your money (`Starbucks`, `Uber`).
-- **Links Account**: Smart-matches `HDFC` in the SMS to your **HDFC Bank** account card in the app.
+Most expense trackers require you to manually open the app and log every coffee you buy. I wanted something that felt more automated. Since iOS doesn't allow apps to read your SMS inbox directly (for good reason), I built a workaround using **iOS Shortcuts** + **Deep Linking**.
 
-### 🏦 Multi-Account Command Center
-Your money lives in different places. Track it all here.
-- **Bank Accounts**: Create digital twins for your real bank accounts.
-- **Wallets & Cash**: Track physical cash or digital wallets separately.
-- **Live Balances**: See exactly how much liquid cash you have across all sources.
+Now, when I get a bank SMS, an automation runs, extracts the details, and pushes it to the app instantly. It feels native and "magic", but it's just some clever engineering.
 
-### 🎨 A UI You Want to Touch
-We obsessed over the details so you don't have to.
-- **Haptic Everything**: Feel every interaction with subtle vibrations.
-- **Fluid Animations**: Charts that grow, cards that slide, and numbers that tick.
-- **Gesture Driven**: Swipe to delete, pull to refresh, tap to expand.
+## Key Features
+
+- **Automated Tracking:** Parses SMS text to find Amount (`750`), Merchant (`Starbucks`), and Account (`HDFC`).
+- **Deep Compatibility:** Works with any bank SMS format via Regex patterning.
+- **Multiple Accounts:** Separate tracking for distinct Bank Accounts, Cash, and Wallets.
+- **Privacy First:** Data lives locally on your device (`AsyncStorage`). No external servers.
+- **Fluid UI:** heavily uses `react-native-reanimated` for smooth 60fps interactions.
 
 ---
 
-## 📸 Visual Tour
+## 📸 Screenshots
 
-### The Dashboard
-Your financial health at a glance. The **Glassmorphic Balance Card** updates in real-time as you spend.
+### Dashboard & Analytics
+The UI is designed to be minimal and information-dense.
 <p align="center">
   <img src="assets/readme-images/app_home_screen.png" width="220" alt="Home" />
   <img src="assets/readme-images/app_history_screen.png" width="220" alt="History" />
@@ -45,59 +36,65 @@ Your financial health at a glance. The **Glassmorphic Balance Card** updates in 
 </p>
 
 ### Account Management
-Add unlimited accounts. Color-code them. Watch them grow (hopefully).
 <p align="center">
-  <img src="assets/readme-images/acc_list_final.png" width="220" alt="Account List" />
+  <img src="assets/readme-images/acc_list_final.png" width="220" alt="Accounts" />
   <img src="assets/readme-images/add_acc_form.png" width="220" alt="Add Account" />
 </p>
 
 ---
 
-## 🧠 How It Works (The Shortcuts Integration)
+## ⚙️ The Technical Stuff (How it works)
 
-Apple doesn't let apps read your SMS. So we built a workaround that feels like magic.
+### The "Loophole" (Shortcuts Automation)
+Since we can't read SMS directly, we use the iOS **Shortcuts** app as a bridge.
 
-1.  **The Trigger**: Your bank sends an SMS: *"Debited Rs 500 for Pizza"*
-2.  **The Shortcut**: An iOS Automation wakes up and flings that message to **PennyWise**.
-3.  **The Brain**: PennyWise catches the message via a Deep Link, parses the text using Regex, determines the category (Food), finds your matching Bank Account, and records the expense.
-
-**All in under 1 second.**
+1.  **Trigger:** An iOS Automation triggers `When Message Received` containing keywords like "Spent" or "Debited".
+2.  **Pass-through:** The Shortcut takes the `Content` of the message and opens a Deep Link to the app.
+    ```
+    expense-tracker://add-from-shortcut?sms=<MESSAGE_CONTENT>&sender=<BANK_NAME>
+    ```
+3.  **Parsing Logic:** Inside the React Native app, we parse the raw SMS string.
+    - **Amount:** Regex search for patterns like `Rs. \d+` or `INR \d+`.
+    - **Merchant:** Heuristics to find the vendor name (usually after "at" or "to").
+    - **Account Linking:** Fuzzy matching the `sender` param (e.g., "HDFC-Bank") to your local Account names.
 
 <p align="center">
-  <img src="assets/readme-images/sms_verified.png" width="600" alt="SMS Verification Flow" />
+  <img src="assets/readme-images/sms_verified.png" width="500" alt="Shortcuts Setup" />
 </p>
 
-*Check the **"Scan"** tab inside the app for a 1-minute setup guide.*
+### Tech Stack
+- **Framework:** [Expo](https://expo.dev) (SDK 52)
+- **Navigation:** `expo-router` (File-based routing, very Next.js like)
+- **Animations:** `react-native-reanimated` (for the sweet layout transitions)
+- **Charts:** `react-native-gifted-charts`
+- **Design:** Custom-built components (no massive UI library bloat)
 
 ---
 
-## 🛠 Under The Hood
+## 💻 Running Locally
 
-Built with love and:
-- **React Native (Expo SDK 52)**: The solid foundation.
-- **Expo Router**: File-based routing for smooth navigation.
-- **Reanimated**: For those buttery smooth 60fps animations.
-- **Gifted Charts**: Data visualization that looks good.
-- **AsyncStorage**: Local-first data persistence. Your data stays on your phone.
+If you want to tweak this or run it on your own phone:
 
-## 🚀 Run It Yourself
-
-1.  **Clone the repo**
+1.  **Clone the repo:**
     ```bash
     git clone https://github.com/yourusername/pennywise.git
-    cd pennywise
     ```
 
-2.  **Install the goods**
+2.  **Install dependencies:**
     ```bash
+    cd pennywise
     npm install
     ```
 
-3.  **Launch**
+3.  **Start the server:**
     ```bash
     npx expo start
     ```
-    *Scan the QR code with your iPhone using the Expo Go app.*
+
+4.  **Run on iOS:**
+    - Download **Expo Go** on your iPhone.
+    - Scan the QR code shown in your terminal.
+    - *Note: The SMS automation feature requires a real device, but you can test everything else in the Simulator.*
 
 ---
 
