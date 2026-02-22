@@ -1,12 +1,15 @@
 {
   "name": "flowstash",
   "main": "expo-router/entry",
+  "homepage": "https://ashinshanly.github.io/flowstash",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "predeploy": "npx expo export -p web",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
