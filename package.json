@@ -1,7 +1,7 @@
 {
   "name": "flowstash",
   "main": "expo-router/entry",
-  "homepage": "https://ashinshanly.github.io/flowstash",
+  "homepage": "https://ashinshanly.github.io/p1",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
